@@ -8,7 +8,7 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.with_ratings(ratings_list)
-    @all_rating = Movie.all_ratings
+    @all_ratings = Movie.all_ratings
     @ratings_to_show = ratings_hash
     byebug
   end
@@ -42,11 +42,11 @@ class MoviesController < ApplicationController
   end
  
   def ratings_hash
-    Hash[ratings_list.collect{|item| [iteam, "1"]}]
+    Hash[ratings_list.collect{|item| [item, "1"]}]
   end
   
-  def rating_list
-    params[:ratings]&.keys || Movie.all
+  def ratings_list
+    params[:ratings]&.keys || Movie.all_ratings
   end
   private
   # Making "internal" methods private is not required, but is a common practice.
