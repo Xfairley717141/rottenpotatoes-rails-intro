@@ -11,6 +11,8 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @ratings_to_show = ratings_hash
     @sort_by = sort_by
+    session[:sort_by] = sort_by
+    session[:ratings] = ratings_list
     #byebug
   end
 
@@ -47,10 +49,10 @@ class MoviesController < ApplicationController
   end
   
   def ratings_list
-    params[:ratings]&.keys || Movie.all_ratings
+    params[:ratings]&.keys ||session[:ratings] || Movie.all_ratings
   end
   def sort_by
-    params[:sort_by] || 'id'
+    params[:sort_by] || session[:sort_by] || 'id'
   end
   private
   # Making "internal" methods private is not required, but is a common practice.
@@ -58,4 +60,6 @@ class MoviesController < ApplicationController
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
+    # we will use session[] for cookies to hold the selected ratings 
+#then modify the index to throw a params[] to indicate sorting or filtering 
 end
